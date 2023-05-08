@@ -11,7 +11,7 @@ Cabinet=''
 Serial_number=''
 Spot_cabinet=''
 
-win_size='1000x700'
+win_size='800x600'
 
 with open('Technitians.json','r+') as File_Technitians_list:
     Technitian_list=json.load(File_Technitians_list)
@@ -107,15 +107,23 @@ def Place_labels():
     Disp_SN_lbl.grid(row=5,column=1,sticky='W')
 
     #Done button
-    Done_button.grid(row=6,column=1,sticky='W')
+    Done_button.grid(row=6,column=0,sticky='W')
+
+    Message_lbl.grid(row=7,column=0,columnspan=2)
+    Message_lbl2.grid(row=8,column=0,columnspan=2)
              
     Message_lbl.configure(text="--Escanear credencial del Tecnico--")
     Message_lbl2.configure(text="--A new cabinet was recorded--")
 
 #Process Done, this function is called when the cabinet is done
 def Done_electrical_test(index):
-    update_list_cabinets_in_floor()
     global list_cabinets_in_floor
+    with open('Tracking_Cabinets.json','r+') as fi:
+        Cabinets_data=json.load(fi)
+        Cabinets_data['cabinets'][index]['Stamp_time_done']=str(datetime.now())
+        fi.seek(0)
+        json.dump(Cabinets_data,fi,indent=4)
+    update_list_cabinets_in_floor()
     with open('Cabinets_History.json','r') as readCabinets_history:
         Cabinets_data_history=json.load(readCabinets_history)
         Cabinets_data_history['cabinets'].append(list_cabinets_in_floor[index])
@@ -401,13 +409,12 @@ def Check_cabinet(event):
 
             #Electrical Test
             
-                    '''
+                    
                 elif(list_cabinets_in_floor[i_cabinet]['Current_place']=='Electrical test'):
                     if(List_technitians_data[technitian_index]["process"]=="Electrical test"):
-                        Done_button.bind('<Button-1>',Done_electrical_test(i_cabinet))
-                        Done_button.place(x=50, y=360)
                         windows.geometry(win_size)
                         Place_labels()
+                        Done_button.bind('<Button-1>',lambda event: Done_electrical_test(i_cabinet))
                         Message_lbl.configure(text="--Current place: Electrical test--")
                         Message_lbl2.configure(text="--In process--")
                         
@@ -419,7 +426,7 @@ def Check_cabinet(event):
                         SN_Entry.delete(0,'end')
                         Message_lbl.configure(text="--Current place: Electrical test--")
                         Message_lbl2.configure(text=List_technitians_data[technitian_index]["process"]+" denied access.")
-                    '''
+                    
                 
             #Waiting Quality inspection
                 elif(list_cabinets_in_floor[i_cabinet]['Current_place']=='Waiting Quality inspection'):
