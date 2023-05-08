@@ -1,0 +1,169 @@
+{
+ "cabinets": [
+  {
+   "Technitian": "03694A",
+   "Checksum": "a1afdaa48837fcf19fa63d154d6a90e0",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-LA16-WC83011300-09",
+   "Cabinet_SN": "59",
+   "Stamp_time": "2022-11-28 13:08:45.790293",
+   "Current_place": "Electrical test"
+  },
+  {
+   "Technitian": "03699A",
+   "Checksum": "dc866a8076003a0adf5f8cf6696ff819",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-LA16-WC83011300-09",
+   "Cabinet_SN": "62",
+   "Stamp_time": "2022-11-28 13:13:30.734078",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "03694A",
+   "Checksum": "b69da7b51497ebfc5dbed93279c6454e",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-LA16-WC83011300-09",
+   "Cabinet_SN": "65",
+   "Stamp_time": "2022-11-28 13:54:14.989206",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "03254A",
+   "Checksum": "f255d880b351f1f9c541227e4c50eb4c",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "68",
+   "Stamp_time": "2022-11-29 14:40:41.998510",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "003513",
+   "Checksum": "aff52887e7005dab62bd98a3954c79cd",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-LA16-WC83011300-09",
+   "Cabinet_SN": "64",
+   "Stamp_time": "2022-11-28 13:55:15.571402",
+   "Current_place": "Waiting Packing"
+  },
+  {
+   "Technitian": "03694A",
+   "Checksum": "b69da7b51497ebfc5dbed93279c6454e",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-LA16-WC83011300-09",
+   "Cabinet_SN": "65",
+   "Stamp_time": "2022-11-28 13:54:14.989206",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "01321A",
+   "Checksum": "e539006dcc827aa23ba1052ec689539b",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "70",
+   "Stamp_time": "2022-11-29 11:13:57.207172",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "03686A",
+   "Checksum": "3347cd01fa414a5991d1a65b0651a91d",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "66",
+   "Stamp_time": "2022-11-29 11:16:17.724863",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "03254A",
+   "Checksum": "f255d880b351f1f9c541227e4c50eb4c",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "68",
+   "Stamp_time": "2022-11-29 14:40:41.998510",
+   "Current_place": "Waiting Quality inspection"
+  },
+  {
+   "Technitian": "03254A",
+   "Checksum": "f255d880b351f1f9c541227e4c50eb4c",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "68",
+   "Stamp_time": "2022-11-29 14:40:41.998510",
+   "Current_place": "Quality inspection"
+  },
+  {
+   "Technitian": "03254A",
+   "Checksum": "f255d880b351f1f9c541227e4c50eb4c",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "68",
+   "Stamp_time": "2022-11-29 14:40:41.998510",
+   "Current_place": "Quality inspection"
+  },
+  {
+   "Technitian": "03686A",
+   "Checksum": "3347cd01fa414a5991d1a65b0651a91d",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "66",
+   "Stamp_time": "2022-11-29 11:16:17.724863",
+   "Current_place": "Quality inspection"
+  },
+  {
+   "Technitian": "01321A",
+   "Checksum": "e539006dcc827aa23ba1052ec689539b",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "70",
+   "Stamp_time": "2022-11-29 11:13:57.207172",
+   "Current_place": "Quality inspection"
+  },
+  {
+   "Technitian": "03686A",
+   "Checksum": "3347cd01fa414a5991d1a65b0651a91d",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "66",
+   "Stamp_time": "2022-11-29 11:16:17.724863",
+   "Current_place": "Quality inspection"
+  },
+  {
+   "Technitian": "01321A",
+   "Checksum": "e539006dcc827aa23ba1052ec689539b",
+   "Cabinet_type": "STOCK",
+   "Customer": "LADOTD, D13 - Baton Rouge",
+   "Sales Order": "20019775",
+   "Cabinet_Part_Number": "70006-TS2-LA16-WC83011300-09",
+   "Cabinet_SN": "70",
+   "Stamp_time": "2022-11-29 11:13:57.207172",
+   "Current_place": "Quality inspection"
+  }
+ ]
+}

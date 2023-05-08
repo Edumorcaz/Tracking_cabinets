@@ -1,0 +1,32 @@
+{
+    "Technitians":[
+        {"firstName":"John", "lastName":"Doe", "process":"Check","id":"03425A"},
+        {"firstName":"Anna", "lastName":"Smith", "process":"Electrical assembly","id":"3426A"},
+        {"firstName":"Peter", "lastName":"Jones", "process":"Electrical test","id":"3427A"},
+        {"firstName":"Peter", "lastName":"Jones", "process":"Quality inspection","id":"3428A"},
+        {"firstName":"Peter", "lastName":"Jones", "process":"Packing","id":"3429A"},
+        {"firstName":"Dagoberto", "lastName":"Herrera", "process":"Mechanical assembly","id":"03694A"},
+        {"firstName":"Arturo", "lastName":"Luna", "process":"Mechanical assembly","id":"03699A"},
+        {"firstName":"Noel", "lastName":"Mejias", "process":"Mechanical assembly","id":"003513"},
+        {"firstName":"Abel", "lastName":"Morales", "process":"Mechanical assembly","id":"03254A"},
+	{"firstName":"Servando","lastName":"Morales","process":"Electrical assembly","id":"03441A"},
+	{"firstName":"Jessica","lastName":"Perez","process":"Electrical assembly","id":"003533"},
+        {"firstName":"Jonathan", "lastName":"Cervantes", "process":"Electrical assembly","id":"03711A"},
+        {"firstName":"Exal", "lastName":"Rosales", "process":"Electrical assembly","id":"03705A"},
+        {"firstName":"Ivan", "lastName":"Arellano", "process":"Electrical assembly","id":"03483A"},
+        {"firstName":"Francisco", "lastName":"Esparza", "process":"Mechanical assembly","id":"03686A"},
+	{"firstName":"Francisco", "lastName":"Flores", "process":"Mechanical assembly","id":"01321A"},
+	{"firstName":"Miguel", "lastName":"Tlaseca", "process":"Electrical test","id":"003547"},
+	{"firstName":"Javier","lastName":"Del Castillo","process":"Electrical test","id":"003439"},
+	{"firstName":"Jonathan","lastName":"Gomez","process":"Electrical test","id":"03475A"},
+	{"firstName":"Julio","lastName":"Lopez","process":"Electrical test","id":"003553"},
+	{"firstName":"Emmanuel","lastName":"Betancourt","process":"Electrical test","id":"003465"},
+	{"firstName":"Gerardo","lastName":"Angulo","process":"Electrical test","id":"03668A"},
+	{"firstName":"Eligio","lastName":"Luna","process":"Electrical test","id":"03720A"},
+	{"firstName":"Javier","lastName":"Higuera","process":"Electrical assembly","id":"03719A"},
+	{"firstName":"Carlos","lastName":"Gorgonia","process":"Electrical assembly","id":"03601A"},
+	{"firstName":"Adonahi","lastName":"Angel","process":"Quality inspection","id":"03484A"},
+	{"firstName":"Juan","lastName":"Salas","process":"Mechanical assembly","id":"03625A"}
+	
+    ]
+    }
