@@ -17,7 +17,6 @@
         {"firstName":"Francisco", "lastName":"Esparza", "process":"Mechanical assembly","id":"03686A"},
 	{"firstName":"Francisco", "lastName":"Flores", "process":"Mechanical assembly","id":"01321A"},
 	{"firstName":"Miguel", "lastName":"Tlaseca", "process":"Electrical test","id":"003547"},
-	{"firstName":"Javier","lastName":"Del Castillo","process":"Electrical test","id":"003439"},
 	{"firstName":"Jonathan","lastName":"Gomez","process":"Electrical test","id":"03475A"},
 	{"firstName":"Julio","lastName":"Lopez","process":"Electrical test","id":"003553"},
 	{"firstName":"Emmanuel","lastName":"Betancourt","process":"Electrical test","id":"003465"},

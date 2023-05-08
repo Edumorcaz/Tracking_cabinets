@@ -113,8 +113,28 @@ def Place_labels():
     Message_lbl2.configure(text="--A new cabinet was recorded--")
 
 #Process Done, this function is called when the cabinet is done
-def Done_mechanical_assembly(index):
+def Done_electrical_test(index):
+    update_list_cabinets_in_floor()
     global list_cabinets_in_floor
+    with open('Cabinets_History.json','r') as readCabinets_history:
+        Cabinets_data_history=json.load(readCabinets_history)
+        Cabinets_data_history['cabinets'].append(list_cabinets_in_floor[index])
+    with open('Cabinets_History.json','w') as writeCabinets_history:
+        json.dump(Cabinets_data_history,writeCabinets_history,indent=1)
+    #Remove cabinet for the list of the floor production
+    with open('Tracking_Cabinets.json','r') as readCabinets:
+        print("delete")
+        Cabinets_data=json.load(readCabinets)
+        print(Cabinets_data['cabinets'][index])
+        del Cabinets_data['cabinets'][index]
+    with open('Tracking_Cabinets.json','w') as writeCabinets:
+        json.dump(Cabinets_data,writeCabinets,indent=4)
+    Message_lbl.configure(text="--Cabinet complete--")
+    Message_lbl2.configure(text="--Scan new cabinet--")
+    windows.geometry(win_size)
+    Place_Entry()
+
+    '''
     with open('Tracking_Cabinets.json','r+') as fi:
         Cabinets_data=json.load(fi)
         Cabinets_data['cabinets'][index]['Stamp_time_mechanical_assembly']=Cabinets_data['cabinets'][index]['Stamp_time']
@@ -124,11 +144,13 @@ def Done_mechanical_assembly(index):
         fi.seek(0)
         json.dump(Cabinets_data,fi,indent=4)
         list_cabinets_in_floor=Cabinets_data['cabinets']
-    Message_lbl.configure(text="--Mechanical assembly complete--")
-    Message_lbl2.configure(text="--Now is waiting to electrical assembly--")
+    Message_lbl.configure(text="--Electrical test complete--")
+    Message_lbl2.configure(text="--Now record a new cabinet--")
     #print(list_cabinets_in_floor)
     windows.geometry(win_size)
     Place_Entry()
+    '''
+    
 def Done_electrical_assembly(index):
     with open('Tracking_Cabinets.json','r+') as fi:
         Cabinets_data=json.load(fi)
@@ -145,7 +167,8 @@ def Done_electrical_assembly(index):
     Done_button.pack_forget()
 
     #Done_electrical_test
-def Done_electrical_test(index):
+
+def Done_mechanical_assembly(index):
     with open('Tracking_Cabinets.json','r+') as fi:
         Cabinets_data=json.load(fi)
         Cabinets_data['cabinets'][index]['Stamp_time_electrical_test']=Cabinets_data['cabinets'][index]['Stamp_time']
@@ -229,6 +252,7 @@ def Check_cabinet(event):
         Cabinet_split=Cabinet.split()
         order=Cabinet_split[0]
         PartNumber=Cabinet_split[1]
+        Spot=Spot_Entry.get()
         ##Get Checksum##
         Cabinet_header=Cabinet_Type+Cabinet_Customer+order+PartNumber+Serial_number
         Cabinet_MD5=hashlib.md5(Cabinet_header.encode())
@@ -376,7 +400,8 @@ def Check_cabinet(event):
                         Message_lbl2.configure(text=List_technitians_data[technitian_index]["process"]+" denied access.")
 
             #Electrical Test
-
+            
+                    '''
                 elif(list_cabinets_in_floor[i_cabinet]['Current_place']=='Electrical test'):
                     if(List_technitians_data[technitian_index]["process"]=="Electrical test"):
                         Done_button.bind('<Button-1>',Done_electrical_test(i_cabinet))
@@ -394,7 +419,8 @@ def Check_cabinet(event):
                         SN_Entry.delete(0,'end')
                         Message_lbl.configure(text="--Current place: Electrical test--")
                         Message_lbl2.configure(text=List_technitians_data[technitian_index]["process"]+" denied access.")
-
+                    '''
+                
             #Waiting Quality inspection
                 elif(list_cabinets_in_floor[i_cabinet]['Current_place']=='Waiting Quality inspection'):
                     if(List_technitians_data[technitian_index]["process"]=="Quality inspection"):
@@ -516,7 +542,12 @@ def Check_cabinet(event):
                 
                 #Cabinet is not in production, now will be check if is in History
          #------------------------------------------------------------------------------------#
+        #open json cabinets history
+        
         elif(i_cabinet==len(list_cabinets_in_floor)):
+            with open('Cabinets_History.json') as file_tracking_done:
+                Cabinets_done=json.load(file_tracking_done)
+            list_cabinets_done=Cabinets_done['cabinets']
             print(str(i_cabinet)+" "+str(len(list_cabinets_in_floor)))
             i_cabinet_done=0
             #looking up for the cabinet in the history file json
@@ -539,11 +570,11 @@ def Check_cabinet(event):
 
              #Cabinet doesn't exist, recording new cabinet
             elif(i_cabinet_done==len(list_cabinets_done) and i_cabinet==len(list_cabinets_in_floor)):
-                if(List_technitians_data[technitian_index]["process"]=="Mechanical assembly"):
-                    Cabinet_info={"Technitian":Technitian_Entry.get(),"Checksum":Cabinet_MD5.hexdigest(),"Cabinet_type":Cabinet_Type,"Spot":Spot_cabinet,"Customer":Cabinet_Customer,"Sales Order":order,"Cabinet_Part_Number":PartNumber,"Cabinet_SN":Serial_number,"Stamp_time":str(datetime.now()),"Current_place":"Mechanical assembly"}
+                if(List_technitians_data[technitian_index]["process"]=="Electrical test"):
+                    Cabinet_info={"Technitian":Technitian_Entry.get(),"Checksum":Cabinet_MD5.hexdigest(),"Cabinet_type":Cabinet_Type,"Spot":Spot,"Customer":Cabinet_Customer,"Sales Order":order,"Cabinet_Part_Number":PartNumber,"Cabinet_SN":Serial_number,"Stamp_time":str(datetime.now()),"Current_place":"Electrical test"}
                     write_json(Cabinet_info)
                     windows.geometry(win_size)
-                    Done_button.bind('<Button-1>',lambda event: Done_mechanical_assembly(i_cabinet))
+                    Done_button.bind('<Button-1>',lambda event: Done_electrical_test(i_cabinet))
                     Done_button.grid(row=5,column=0)
                     Data_done.grid(row=6,column=0)
                     Data_done.focus()
