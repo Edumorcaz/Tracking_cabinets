@@ -13,6 +13,16 @@ Spot_cabinet=''
 
 win_size='800x600'
 
+def Hold_OK(event):
+     
+
+def Hold_cabinet(event):
+    Record_cabinet_data.pack_forget()
+    Frame_Hold.pack()
+
+def Cancel_cabinet(event):
+    print('Cancel cabinet')
+
 with open('Technitians.json','r+') as File_Technitians_list:
     Technitian_list=json.load(File_Technitians_list)
 List_technitians_data=Technitian_list['Technitians']
@@ -57,6 +67,8 @@ def Place_Entry():
     Disp_SN_lbl.grid_forget()
     Done_button.grid_forget()
     Data_done.grid_forget()
+    Hold_button.grid_forget()
+    Cancel_button.grid_forget()
 
     Technitian_Entry.delete(0,'end')
     Technitian_Entry.grid(row=0,column=1,sticky='W')
@@ -106,8 +118,18 @@ def Place_labels():
     Disp_SN_lbl.configure(text=SN_Entry.get())
     Disp_SN_lbl.grid(row=5,column=1,sticky='W')
 
+    #frame grid
+    Control_buttons.grid(row=6,column=1,columnspan=4,sticky='W')
+    
     #Done button
-    Done_button.grid(row=6,column=0,sticky='W')
+    Done_button.grid(row=0,column=1,sticky='W',padx=2,pady=2)
+
+    #Hold button
+    Hold_button.grid(row=0,column=2,sticky='W',padx=2,pady=2)
+
+    #Cancel button
+    Cancel_button.grid(row=0,column=3,sticky='W',padx=2,pady=2)
+
 
     Message_lbl.grid(row=7,column=0,columnspan=2)
     Message_lbl2.grid(row=8,column=0,columnspan=2)
@@ -756,9 +778,11 @@ Disp_Cabinet_PN_lbl=tk.Label(master=Record_cabinet_data,font=("arial",30),text='
 #Serial Number
 Disp_SN_lbl=tk.Label(master=Record_cabinet_data,font=("arial",30),text='',pady=10)
 
+#Frame control buttons
+Control_buttons=tk.Frame(master=Record_cabinet_data)
 
 #Button for check done
-Done_button = tk.Button(master=Record_cabinet_data,text="Done",width='10')
+Done_button = tk.Button(master=Control_buttons,text="Done",width='10')
 Done_button.bind('<Button-1>',lambda event: Scanner_done(event, Scanner_index=i_cabinet))
 
 
@@ -766,5 +790,24 @@ Done_button.bind('<Button-1>',lambda event: Scanner_done(event, Scanner_index=i_
 Data_done=tk.Entry(master=Record_cabinet_data,font=("arial",16))
 Data_done.bind('<Return>',lambda event: Scanner_done(event, Scanner_index=i_cabinet))
 
+#cancel button
+Cancel_button = tk.Button(master=Control_buttons,text="Cancel",width='10')
+Cancel_button.bind('<Button-1>',lambda event: Cancel_cabinet(event, Scanner_index=i_cabinet))
+
+#hold button
+Hold_button = tk.Button(master=Control_buttons,text="Hold",width='10')
+Hold_button.bind('<Button-1>',lambda event: Hold_cabinet(event))
+
+#Frame_Hold
+Frame_Hold=tk.Frame(master=windows)
+Entry_Hold=tk.Entry(master=Frame_Hold,font=("arial",30))
+Entry_Hold.grid(row=0,column=0,columnspan=2,ipady=10)
+Entry_Hold.focus()
+Button_hold_ok=tk.Button(master=Frame_Hold,text='OK',width='10')
+Button_hold_ok.grid(row=1,column=0,ipady=10)
+Button_hold_ok.bind('<Button-1>',lambda event: Hold_OK(event))
+Button_hold_cancel=tk.Button(master=Frame_Hold,text='Cancel',width='10')
+Button_hold_cancel.grid(row=1,column=1,ipady=10)
+Button_hold_cancel.bind('<Button-1>',lambda event: Hold_cabinet(event))
 
 windows.mainloop()   
