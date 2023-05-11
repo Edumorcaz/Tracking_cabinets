@@ -13,9 +13,14 @@ Spot_cabinet=''
 
 win_size='800x600'
 
+def Main_Menu_return(event):
+    Place_Entry()
+
+
 def Hold_return_main_menu(event):
-    Frame_Hold.grid_forget()
+    Frame_Hold.pack_forget()
     Record_cabinet_data.pack()
+    Place_Entry()
 
 def Hold_return_test(event):
     global list_cabinets_in_floor
@@ -28,13 +33,16 @@ def Hold_return_test(event):
         Cabinets_data['cabinets'][index]['Current_place']="Electrical test"
         fi.seek(0)
         json.dump(Cabinets_data,fi,indent=4)
-    Technitian_Entry.insert(0,Cabinets_data['cabinets'][index][Technitian])
-    Spot_Entry.insert(0,Cabinets_data['cabinets'][index][Spot])
-    Cabinet_Type_Entry.insert(0,Cabinets_data['cabinets'][index][Cabinet_Type])
-    Customer_Entry.insert(0,Cabinets_data['cabinets'][index]['Customer'])
-    Cabinet_PN_Entry.insert(0,Cabinets_data['cabinets'][index]['Sales Order']+Cabinets_data['cabinets'][index]['Cabinet_Part_Number'])
-    SN_Entry.insert(0,Cabinets_data['cabinets'][index]['Cabinet_SN'])
-    Frame_Hold.grid_forget()
+    update_list_cabinets_in_floor()
+    Place_Entry()
+    Technitian_Entry.insert(0,list_cabinets_in_floor[index]['Technitian'])
+    Spot_Entry.insert(0,list_cabinets_in_floor[index]['Spot'])
+    Cabinet_Type_Entry.insert(0,list_cabinets_in_floor[index]['Cabinet_type'])
+    Customer_Entry.insert(0,list_cabinets_in_floor[index]['Customer'])
+    Cabinet_PN_Entry.insert(0,list_cabinets_in_floor[index]['Sales Order']+Cabinets_data['cabinets'][index]['Cabinet_Part_Number'])
+    SN_Entry.insert(0,list_cabinets_in_floor[index]['Cabinet_SN'])
+    Frame_Hold.pack_forget()
+    Record_cabinet_data.pack()
     Place_labels()
 
 
@@ -79,15 +87,23 @@ def Hold_OK(event):
     Button_hold_ok.grid_forget()
     Button_hold_cancel.grid_forget()
     
-
-
 def Hold_cabinet(event):
     Record_cabinet_data.pack_forget()
     Frame_Hold.pack()
     Entry_Hold.focus()
 
 def Cancel_cabinet(event):
+    global list_cabinets_in_floor
+    global Cabinet_MD5
+    index=look_for_index_cabinet_in_list(Cabinet_MD5)
     print('Cancel cabinet')
+    with open('Tracking_Cabinets.json','r') as readCabinets:
+        print("delete")
+        Cabinets_data=json.load(readCabinets)
+        print(Cabinets_data['cabinets'][index])
+        del Cabinets_data['cabinets'][index]
+    with open('Tracking_Cabinets.json','w') as writeCabinets:
+        json.dump(Cabinets_data,writeCabinets,indent=4)
 
 with open('Technitians.json','r+') as File_Technitians_list:
     Technitian_list=json.load(File_Technitians_list)
@@ -135,6 +151,7 @@ def Place_Entry():
     Data_done.grid_forget()
     Hold_button.grid_forget()
     Cancel_button.grid_forget()
+    Main_Menu_Record.grid_forget()
 
     Technitian_Entry.delete(0,'end')
     Technitian_Entry.grid(row=0,column=1,sticky='W')
@@ -195,6 +212,9 @@ def Place_labels():
 
     #Cancel button
     Cancel_button.grid(row=0,column=3,sticky='W',padx=2,pady=2)
+
+    #Main menu
+    Main_Menu_Record.grid(row=0,column=4,sticky='W',padx=2,pady=2)
 
 
     Message_lbl.grid(row=7,column=0,columnspan=2)
@@ -494,6 +514,34 @@ def Check_cabinet(event):
                         SN_Entry.delete(0,'end')
                         Cabinet_PN_Entry.delete(0,'end')
                         Message_lbl.configure(text="--Waiting Electrical test--")
+                        Message_lbl2.configure(text=List_technitians_data[technitian_index]["process"]+" denied access.")
+
+            #Hold
+            
+                    
+                elif(list_cabinets_in_floor[i_cabinet]['Current_place']=='In hold'):
+                    if(List_technitians_data[technitian_index]["process"]=="Electrical test"):
+                        index = look_for_index_cabinet_in_list(Cabinet_MD5)
+                        Data_entry=list_cabinets_in_floor[index]['Hold comment']
+                        windows.geometry(win_size)
+                        Record_cabinet_data.pack_forget()
+                        Frame_Hold.pack()
+                        Entry_Hold.grid_forget()
+                        Label_Hold.configure(text=Data_entry)
+                        Label_Hold.grid(row=0,column=0,columnspan=4,ipady=10)
+                        Message_hold.grid(row=2,column=0,columnspan=2,ipady=10)
+                        Buton_hold_return_Test.grid(row=3,column=0)
+                        Button_Main_Menu.grid(row=3,column=1)
+                        Button_hold_ok.grid_forget()
+                        Button_hold_cancel.grid_forget()
+                        
+                    else:
+                        Technitian_Entry.delete(0,'end')
+                        Spot_Entry.delete(0,'end')
+                        Customer_Entry.delete(0,'end')
+                        Cabinet_Type_Entry.delete(0,'end')
+                        SN_Entry.delete(0,'end')
+                        Message_lbl.configure(text="--Current place: Electrical test--")
                         Message_lbl2.configure(text=List_technitians_data[technitian_index]["process"]+" denied access.")
 
             #Electrical Test
@@ -860,23 +908,27 @@ Data_done.bind('<Return>',lambda event: Scanner_done(event, Scanner_index=i_cabi
 
 #cancel button
 Cancel_button = tk.Button(master=Control_buttons,text="Cancel",width='10')
-Cancel_button.bind('<Button-1>',lambda event: Cancel_cabinet(event, Scanner_index=i_cabinet))
+Cancel_button.bind('<Button-1>',lambda event: Cancel_cabinet(event))
 
 #hold button
 Hold_button = tk.Button(master=Control_buttons,text="Hold",width='10')
 Hold_button.bind('<Button-1>',lambda event: Hold_cabinet(event))
 
+#Main Menu
+Main_Menu_Record=tk.Button(master=Control_buttons,text="Main Menu",width='10')
+Main_Menu_Record.bind('<Button-1>',lambda event: Main_Menu_return(event))
+
 #Frame_Hold
 Frame_Hold=tk.Frame(master=windows)
-Entry_Hold=tk.Entry(master=Frame_Hold,font=("arial",15),width='20')
-Entry_Hold.grid(row=0,column=0,columnspan=2,ipady=10)
+Entry_Hold=tk.Entry(master=Frame_Hold,font=("arial",15),width='60')
+Entry_Hold.grid(row=0,column=0,columnspan=4,ipady=10)
 Entry_Hold.focus()
 Button_hold_ok=tk.Button(master=Frame_Hold,text='OK',width='10')
 Button_hold_ok.grid(row=1,column=0,ipady=10)
 Button_hold_ok.bind('<Button-1>',lambda event: Hold_OK(event))
 Button_hold_cancel=tk.Button(master=Frame_Hold,text='Cancel',width='10')
 Button_hold_cancel.grid(row=1,column=1,ipady=10)
-Label_Hold=tk.Label(master=Frame_Hold,text='Cabinet is in hold',font=("arial",30))
+Label_Hold=tk.Label(master=Frame_Hold,text='Cabinet is in hold',font=("arial",16))
 Button_hold_cancel.bind('<Button-1>',lambda event: Hold_cancel(event))
 Message_hold=tk.Label(master=Frame_Hold,text='Cabinet is on Hold',font=("arial",30))
 Buton_hold_return_Test=tk.Button(master=Frame_Hold,text='Return to test',width='30')
