@@ -770,13 +770,13 @@ def CheckandMove(event):
                 #Validate_technitian=Technitian_id.index(Data_input.get())
             i=i+1
         if find==False:
-            windows.configure(bg="firebrick1")
             Record_cabinet_data.pack() 
             Technitian_Entry.delete(0,'end')
             Spot_Entry.delete(0,'end')
             Technitian_Entry.focus()
-            Message_lbl.configure(text="--Tecnico no registrado--")
-            Message_lbl2.configure(text="No found")
+            Message_lbl.configure(text="--Tecnico no registrado--",bg="red")
+            Message_lbl2.configure(text="No found",bg="red")
+
     except:
         windows.configure(bg="firebrick1")
         Record_cabinet_data.pack()
@@ -791,8 +791,13 @@ def CheckandMove(event):
 def Spot(event):
     global Spot_cabinet
     Spot_value=Spot_Entry.get()
-    #Spot_cabinet=Data_Spot.get()
-    Cabinet_Type_Entry.focus()
+    if(Spot_value.find("Spot")!=-1):
+        #Spot_cabinet=Data_Spot.get()
+        Cabinet_Type_Entry.focus()
+    else:
+        Place_Entry()
+        Message_lbl.configure(text="--Spot is not correct--",bg="red")
+        Message_lbl2.configure(text="Try to scan a correct Spot",bg="red")
 
 def focusToCustomer(event):
     Customer_Entry.focus()
