@@ -1,5 +1,6 @@
-test=["1","2","3"]
+i=1
+a=str(i+3)
+print(a)
 
-test.append("4")
-
-print(test)
+b=list(a)
+print(b)

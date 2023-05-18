@@ -17,7 +17,6 @@ win_size='800x600'
 def Main_Menu_return(event):
     Place_Entry()
 
-
 def Hold_return_main_menu(event):
     Frame_Hold.pack_forget()
     Record_cabinet_data.pack()
@@ -50,7 +49,6 @@ def Hold_return_test(event):
     tree.grid_forget()
     Record_cabinet_data.pack()
     Place_labels()
-
 
 def look_for_index_cabinet_in_list(Cabinet_MD5):
     global list_cabinets_in_floor
@@ -96,15 +94,37 @@ def Hold_OK(event):
             Cabinet_hold_comments=Cabinets_data['cabinets'][index]['Hold comment']=[Entry_Hold.get()]
             Cabinets_data['cabinets'][index]['Hold_Start_Stamptime']=[str(datetime.now())]
             print("The hold comment doesn't existe")
+        
+        #insert hold data into table
+        for item in tree.get_children():
+            tree.delete(item)
+        Hold_comments=len(Cabinets_data['cabinets'][index]['Hold comment'])
+        
+        for i in range(Hold_comments):
+            row_comments=[]
+            Hold_number_list=str(i+1)
+            Hold_number_string="".join(Hold_number_list)
+            row_comments.append(Hold_number_list)
+            row_comments.append(Cabinets_data['cabinets'][index]['Hold comment'][i])
+            row_comments.append(Cabinets_data['cabinets'][index]['Hold_Start_Stamptime'][i])
+            try:
+                row_comments.append(Cabinets_data['cabinets'][index]['Hold_Stamp_time_end'][i])
+            except:
+                row_comments.append("---")
+            tree.insert("","end",values=row_comments)
+            print(row_comments)
+
+        len(Cabinets_data['cabinets'][index]['Hold comment'])
         print(Cabinets_data['cabinets'][index])
         Cabinets_data['cabinets'][index]['Current_place']="In hold"
         fi.seek(0)
         json.dump(Cabinets_data,fi,indent=4)
+    
     Data_entry=Entry_Hold.get()
     Entry_Hold.grid_forget()
-    Label_Hold.configure(text=Data_entry)
+    Label_Hold.configure(text="Currently on Hold: "+Data_entry)
     Label_Hold.grid(row=0,column=0,columnspan=2,ipady=10)
-    Message_hold.grid(row=2,column=0,columnspan=2,ipady=10)
+    Message_hold.grid(row=7,column=0,columnspan=2,ipady=10)
     Buton_hold_return_Test.grid(row=3,column=0)
     Button_Main_Menu.grid(row=3,column=1)
     Button_hold_ok.grid_forget()
@@ -554,19 +574,37 @@ def Check_cabinet(event):
                 elif(list_cabinets_in_floor[i_cabinet]['Current_place']=='In hold'):
                     if(List_technitians_data[technitian_index]["process"]=="Electrical test"):
                         index = look_for_index_cabinet_in_list(Cabinet_MD5)
-                        Data_entry=list_cabinets_in_floor[index]['Hold comment']
+                        Data_entry=list_cabinets_in_floor[index]['Hold comment'][-1]
                         windows.geometry(win_size)
                         Record_cabinet_data.pack_forget()
                         Frame_Hold.pack()
                         Entry_Hold.grid_forget()
-                        Label_Hold.configure(text=Data_entry)
+                        Label_Hold.configure(text="Currently on Hold: "+Data_entry)
                         Label_Hold.grid(row=0,column=0,columnspan=4,ipady=10)
-                        Message_hold.grid(row=2,column=0,columnspan=2,ipady=10)
+                        Message_hold.grid(row=7,column=0,columnspan=2,ipady=10)
                         Buton_hold_return_Test.grid(row=3,column=0)
                         Button_Main_Menu.grid(row=3,column=1)
                         Button_hold_ok.grid_forget()
                         Button_hold_cancel.grid_forget()
-                        
+
+                        #insert hold data into table
+                        for item in tree.get_children():
+                            tree.delete(item)
+                        print('hold comment')
+                        print(list_cabinets_in_floor[i_cabinet]['Hold comment'])
+                        Hold_comments=len(list_cabinets_in_floor[i_cabinet]['Hold comment'])
+                        for i in range(Hold_comments):
+                            row_comments=[]
+                            Hold_number_list=str(i+1)
+                            row_comments.append(Hold_number_list)
+                            row_comments.append(list_cabinets_in_floor[i_cabinet]['Hold comment'][i])
+                            row_comments.append(list_cabinets_in_floor[i_cabinet]['Hold_Start_Stamptime'][i])
+                            try:
+                                row_comments.append(list_cabinets_in_floor[i_cabinet]['Hold_Stamp_time_end'][i])
+                            except:
+                                row_comments.append("---")
+                            tree.insert("","end",values=row_comments)                        
+                        tree.grid(row=4,column=0,columnspan=4,ipady=50)
                     else:
                         Technitian_Entry.delete(0,'end')
                         Spot_Entry.delete(0,'end')
@@ -777,7 +815,6 @@ def Check_cabinet(event):
                     Message_lbl.configure(text="--Technitian is not Mechanical assembly--")
                     Message_lbl2.configure(text="--Can't record new cabinet--")
 
-
 #Check Technitians
 def CheckandMove(event):
     global technitian_index
@@ -967,7 +1004,7 @@ Button_hold_cancel=tk.Button(master=Frame_Hold,text='Cancel',width='10')
 Button_hold_cancel.grid(row=1,column=1,ipady=10)
 Label_Hold=tk.Label(master=Frame_Hold,text='Cabinet is in hold',font=("arial",16))
 Button_hold_cancel.bind('<Button-1>',lambda event: Hold_cancel(event))
-Message_hold=tk.Label(master=Frame_Hold,text='Cabinet is on Hold',font=("arial",30))
+Message_hold=tk.Label(master=Frame_Hold,text='--Cabinet is on Hold--',font=("arial",30),bg='yellow')
 Buton_hold_return_Test=tk.Button(master=Frame_Hold,text='Return to test',width='30')
 Buton_hold_return_Test.bind('<Button-1>',lambda event: Hold_return_test(event))
 Button_Main_Menu=tk.Button(master=Frame_Hold,text='Main Menu',width='30')
@@ -983,8 +1020,8 @@ tree.heading('Start time', text='Start time')
 tree.heading('End time', text='End time')
 
 # Define the column widths
-tree.column('Hold #', width=80, anchor='center')
-tree.column('Comment', width=250, anchor='center')
+tree.column('Hold #', width=40, anchor='center')
+tree.column('Comment', width=300, anchor='center')
 tree.column('Start time', width=100, anchor='center')
 tree.column('End time', width=100, anchor='center')
 
