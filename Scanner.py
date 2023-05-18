@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from datetime import datetime
 import json
 import time
@@ -29,7 +30,11 @@ def Hold_return_test(event):
     print(index)
     with open('Tracking_Cabinets.json','r+') as fi:
         Cabinets_data=json.load(fi)
-        Cabinets_data['cabinets'][index]['Hold_Stamp_time_end']=str(datetime.now())
+        try:
+            Hold_End_Stamptime=Cabinets_data['cabinets'][index]['Hold_Stamp_time_end']
+            Hold_End_Stamptime.append(str(datetime.now()))
+        except:
+            Cabinets_data['cabinets'][index]['Hold_Stamp_time_end']=[str(datetime.now())]
         Cabinets_data['cabinets'][index]['Current_place']="Electrical test"
         fi.seek(0)
         json.dump(Cabinets_data,fi,indent=4)
@@ -42,6 +47,7 @@ def Hold_return_test(event):
     Cabinet_PN_Entry.insert(0,list_cabinets_in_floor[index]['Sales Order']+Cabinets_data['cabinets'][index]['Cabinet_Part_Number'])
     SN_Entry.insert(0,list_cabinets_in_floor[index]['Cabinet_SN'])
     Frame_Hold.pack_forget()
+    tree.grid_forget()
     Record_cabinet_data.pack()
     Place_labels()
 
@@ -72,8 +78,25 @@ def Hold_OK(event):
     print(index)
     with open('Tracking_Cabinets.json','r+') as fi:
         Cabinets_data=json.load(fi)
-        Cabinets_data['cabinets'][index]['Hold_Stamp_time']=str(datetime.now())
-        Cabinets_data['cabinets'][index]['Hold comment']=Entry_Hold.get()
+        
+        try:
+            hold_comment=Cabinets_data['cabinets'][index]['Hold comment']
+            print(hold_comment)
+            print(type(hold_comment))
+            hold_comment.append(Entry_Hold.get())
+            print(hold_comment)
+            print(type(hold_comment))
+            Stamptime_start_hold_comment=Cabinets_data['cabinets'][index]['Hold_Start_Stamptime']
+            print(Stamptime_start_hold_comment)
+            Stamptime_start_hold_comment.append(str(datetime.now()))
+            Cabinets_data['cabinets'][index]['Hold comment']=hold_comment
+            Cabinets_data['cabinets'][index]['Hold_Start_Stamptime']=Stamptime_start_hold_comment
+            print('adding hold events')
+        except:
+            Cabinet_hold_comments=Cabinets_data['cabinets'][index]['Hold comment']=[Entry_Hold.get()]
+            Cabinets_data['cabinets'][index]['Hold_Start_Stamptime']=[str(datetime.now())]
+            print("The hold comment doesn't existe")
+        print(Cabinets_data['cabinets'][index])
         Cabinets_data['cabinets'][index]['Current_place']="In hold"
         fi.seek(0)
         json.dump(Cabinets_data,fi,indent=4)
@@ -86,10 +109,19 @@ def Hold_OK(event):
     Button_Main_Menu.grid(row=3,column=1)
     Button_hold_ok.grid_forget()
     Button_hold_cancel.grid_forget()
+    tree.grid(row=4,column=0,columnspan=4,ipady=50)
     
 def Hold_cabinet(event):
     Record_cabinet_data.pack_forget()
     Frame_Hold.pack()
+    Entry_Hold.grid(row=0,column=0,columnspan=4,ipady=10)
+    Entry_Hold.delete(0,'end')
+    Message_hold.grid_forget()
+    Buton_hold_return_Test.grid_forget()
+    Button_Main_Menu.grid_forget()
+    Label_Hold.grid_forget()
+    Button_hold_ok.grid(row=1,column=0,ipady=10)
+    Button_hold_cancel.grid(row=1,column=1,ipady=10)
     Entry_Hold.focus()
 
 def Cancel_cabinet(event):
@@ -812,7 +844,7 @@ def focusToSN(event):
 windows=tk.Tk()
 windows.geometry(win_size)
 windows.title('Trafficware - Cabinets')
-#windows.iconbitmap('Trafficlight.ico')
+windows.iconbitmap('Trafficlight.ico')
 
 #Functions for User interface frame
 
@@ -940,5 +972,21 @@ Buton_hold_return_Test=tk.Button(master=Frame_Hold,text='Return to test',width='
 Buton_hold_return_Test.bind('<Button-1>',lambda event: Hold_return_test(event))
 Button_Main_Menu=tk.Button(master=Frame_Hold,text='Main Menu',width='30')
 Button_Main_Menu.bind('<Button-1>',lambda event: Hold_return_main_menu(event))
+
+#Table
+# Create a Treeview widget
+tree = ttk.Treeview(Frame_Hold, columns=('Hold #', 'Comment', 'Start time', 'End time'), show='headings')
+# Define the columns and their headings
+tree.heading('Hold #', text='Hold #')
+tree.heading('Comment', text='Comment')
+tree.heading('Start time', text='Start time')
+tree.heading('End time', text='End time')
+
+# Define the column widths
+tree.column('Hold #', width=80, anchor='center')
+tree.column('Comment', width=250, anchor='center')
+tree.column('Start time', width=100, anchor='center')
+tree.column('End time', width=100, anchor='center')
+
 
 windows.mainloop()   
